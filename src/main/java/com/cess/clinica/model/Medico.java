@@ -46,11 +46,11 @@ public class Medico implements Serializable{
 	private String numCelular;
 	
 	@OneToMany(mappedBy="medico",fetch=FetchType.EAGER)
-	@JsonIgnoreProperties("medico")
+	@JsonIgnoreProperties({"medico", "internaciones"})
 	private Set<Paciente> pacientes;
 	
 	@OneToMany(mappedBy="medico",fetch=FetchType.EAGER)
-	@JsonIgnoreProperties("medico")
+	@JsonIgnoreProperties({"medico", "paciente"})
 	private Set<Internacion> internaciones;
 
 	public int getId() {
@@ -132,6 +132,7 @@ public class Medico implements Serializable{
 	public void setPacientes(Set<Paciente> pacientes) {
 		this.pacientes = pacientes;
 	}
+	
 	public Set<Internacion> getInternaciones() {
 		return internaciones;
 	}

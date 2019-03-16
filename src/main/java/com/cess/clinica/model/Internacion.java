@@ -24,12 +24,12 @@ public class Internacion implements Serializable{
 	
 	@ManyToOne
 	@JoinColumn(name="paciente_id")
-	@JsonIgnoreProperties("internaciones")
+	@JsonIgnoreProperties({"internaciones", "medico"})
 	private Paciente paciente;
 	
 	@ManyToOne
 	@JoinColumn(name="medico_id")
-	@JsonIgnoreProperties("internaciones")
+	@JsonIgnoreProperties({"internaciones", "pacientes"})
 	private Medico medico;
 	
 	@ManyToOne
@@ -44,7 +44,6 @@ public class Internacion implements Serializable{
 	
 	@Column(name="fecha_internacion")
 	private Date fechaInternacion;
-	
 	
 	
 	public int getId() {

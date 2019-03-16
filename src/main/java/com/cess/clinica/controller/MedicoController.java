@@ -18,8 +18,8 @@ public class MedicoController {
 	@Autowired
 	private MedicoInterface medicoService;
 	
-	@GetMapping(value="/medico",produces="application/json")
-	public ResponseEntity<?> findAll(@RequestBody Medico m){
+	@GetMapping(value= "/medico",produces="application/json")
+	public ResponseEntity<?> findAll(){
 		return new ResponseEntity<>(medicoService.findAll(),HttpStatus.OK);
 	}
 }
