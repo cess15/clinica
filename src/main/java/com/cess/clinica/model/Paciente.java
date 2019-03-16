@@ -3,6 +3,7 @@ package com.cess.clinica.model;
 import java.io.Serializable;
 import java.util.Set;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -21,69 +22,101 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 public class Paciente implements Serializable{
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private int id_paciente;
+	private int id;
 	
 	@ManyToOne
-	@JoinColumn(name="id_tipo_doc")
-	private TipoDocumento id_tipo_doc;
+	@JoinColumn(name="documento_id")
+	private TipoDocumento tipoDocumento;
+	
+	@ManyToOne
+	@JoinColumn(name="medico_id")
+	@JsonIgnoreProperties("pacientes")
+	private Medico medico;
 	
 	private String apellido;
 	private String nombre;
-	private String num_documento;
+	
+	@Column(name="num_documento")
+	private String numDocumento;
+	
 	private String domicilio;
-	private String obra_social;
 	
-	@OneToMany(mappedBy="id_paciente",fetch=FetchType.EAGER)
-	@JsonIgnoreProperties("id_paciente")
+	@Column(name="obra_social")
+	private String obraSocial;
+	
+	@OneToMany(mappedBy="paciente",fetch=FetchType.EAGER)
+	@JsonIgnoreProperties("paciente")
 	private Set<Internacion> internaciones;
-	
-	public int getId_paciente() {
-		return id_paciente;
+
+	public int getId() {
+		return id;
 	}
-	public void setId_paciente(int id_paciente) {
-		this.id_paciente = id_paciente;
+
+	public void setId(int id) {
+		this.id = id;
 	}
-	public TipoDocumento getId_tipo_doc() {
-		return id_tipo_doc;
+
+	public TipoDocumento getTipoDocumento() {
+		return tipoDocumento;
 	}
-	
-	public void setId_tipo_doc(TipoDocumento id_tipo_doc) {
-		this.id_tipo_doc = id_tipo_doc;
+
+	public void setTipoDocumento(TipoDocumento tipoDocumento) {
+		this.tipoDocumento = tipoDocumento;
 	}
+
+	public Medico getMedico() {
+		return medico;
+	}
+
+	public void setMedico(Medico medico) {
+		this.medico = medico;
+	}
+
 	public String getApellido() {
 		return apellido;
 	}
+
 	public void setApellido(String apellido) {
 		this.apellido = apellido;
 	}
+
 	public String getNombre() {
 		return nombre;
 	}
+
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
-	public String getNum_documento() {
-		return num_documento;
+
+	public String getNumDocumento() {
+		return numDocumento;
 	}
-	public void setNum_documento(String num_documento) {
-		this.num_documento = num_documento;
+
+	public void setNumDocumento(String numDocumento) {
+		this.numDocumento = numDocumento;
 	}
+
 	public String getDomicilio() {
 		return domicilio;
 	}
+
 	public void setDomicilio(String domicilio) {
 		this.domicilio = domicilio;
 	}
-	public String getObra_social() {
-		return obra_social;
+
+	public String getObraSocial() {
+		return obraSocial;
 	}
-	public void setObra_social(String obra_social) {
-		this.obra_social = obra_social;
+
+	public void setObraSocial(String obraSocial) {
+		this.obraSocial = obraSocial;
 	}
+
 	public Set<Internacion> getInternaciones() {
 		return internaciones;
 	}
-	public void setId_internacion(Set<Internacion> internaciones) {
+
+	public void setInternaciones(Set<Internacion> internaciones) {
 		this.internaciones = internaciones;
 	}
 }

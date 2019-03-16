@@ -13,21 +13,20 @@ import javax.persistence.Table;
 public class Genero implements Serializable{
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private int id_genero;
-	private String descripcion_g;
+	private int id;
 	
-	public int getId_genero() {
-		return id_genero;
-	}
-	public void setId_genero(int id_genero) {
-		this.id_genero = id_genero;
-	}
-	public String getDescripcion_g() {
-		return descripcion_g;
-	}
-	public void setDescripcion_g(String descripcion_g) {
-		this.descripcion_g = descripcion_g;
-	}
+	private String descripcion;
 	
-	
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
+	public String getDescripcion() {
+		return descripcion;
+	}
+	public void setDescripcion(String descripcion) {
+		this.descripcion = descripcion;
+	}
 }

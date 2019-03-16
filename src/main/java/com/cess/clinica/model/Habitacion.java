@@ -15,55 +15,56 @@ import javax.persistence.Table;
 public class Habitacion implements Serializable{
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private int id_habitacion;
+	private int id;
 	
 	@ManyToOne
-	@JoinColumn(name="id_piso")
-	private Piso id_piso;
+	@JoinColumn(name="piso_id")
+	private Piso piso;
 	
 	@ManyToOne
-	@JoinColumn(name="id_estado_hab")
-	private EstadoHabitacion id_estado_hab;
+	@JoinColumn(name="estado_id")
+	private EstadoHabitacion estadoHabitacion;
 	
 	@ManyToOne
-	@JoinColumn(name="id_tipo_hab")
-	private TipoHabitacion id_tipo_hab;
+	@JoinColumn(name="tipo_id")
+	private TipoHabitacion tipoHabitacion;
 	
 	@ManyToOne
-	@JoinColumn(name="id_genero")
-	private Genero id_genero;
+	@JoinColumn(name="genero_id")
+	private Genero genero;
 	
 	private String numero;
 	
-	public int getId_habitacion() {
-		return id_habitacion;
+	
+	public int getId() {
+		return id;
 	}
-	public void setId_habitacion(int id_habitacion) {
-		this.id_habitacion = id_habitacion;
+	public void setId(int id) {
+		this.id = id;
 	}
-	public Piso getId_piso() {
-		return id_piso;
+	public Piso getPiso() {
+		return piso;
 	}
-	public void setId_piso(Piso id_piso) {
-		this.id_piso = id_piso;
+	public void setPiso(Piso piso) {
+		this.piso = piso;
 	}
-	public EstadoHabitacion getId_estado_hab() {
-		return id_estado_hab;
+	public EstadoHabitacion getEstadoHabitacion() {
+		return estadoHabitacion;
 	}
-	public void setId_estado_hab(EstadoHabitacion id_estado_hab) {
-		this.id_estado_hab = id_estado_hab;
+	public void setEstadoHabitacion(EstadoHabitacion estadoHabitacion) {
+		this.estadoHabitacion = estadoHabitacion;
 	}
-	public TipoHabitacion getId_tipo_hab() {
-		return id_tipo_hab;
+	public TipoHabitacion getTipoHabitacion() {
+		return tipoHabitacion;
 	}
-	public void setId_tipo_hab(TipoHabitacion id_tipo_hab) {
-		this.id_tipo_hab = id_tipo_hab;
+	public void setTipoHabitacion(TipoHabitacion tipoHabitacion) {
+		this.tipoHabitacion = tipoHabitacion;
 	}
-	public Genero getId_genero() {
-		return id_genero;
+	public Genero getGenero() {
+		return genero;
 	}
-	public void setId_genero(Genero id_genero) {
-		this.id_genero = id_genero;
+	public void setGenero(Genero genero) {
+		this.genero = genero;
 	}
 	public String getNumero() {
 		return numero;
@@ -71,6 +72,4 @@ public class Habitacion implements Serializable{
 	public void setNumero(String numero) {
 		this.numero = numero;
 	}
-	
-	
 }

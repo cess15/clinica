@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cess.clinica.model.EstadoHabitacion;
-import com.cess.clinica.model.EstadoInternacion;
 import com.cess.clinica.model.Habitacion;
 import com.cess.clinica.model.Internacion;
 import com.cess.clinica.service.HabitacionInterface;
@@ -34,16 +33,16 @@ public class InternacionController {
 	
 	@PostMapping(value="/internacion", produces="application/json")
 	public ResponseEntity<?> save(@RequestBody Internacion internacion){
-		Habitacion habitacion=habitacionService.findById(internacion.getId_habitacion().getId_habitacion());
+		Habitacion habitacion=habitacionService.findById(internacion.getHabitacion().getId());
 		
-		if(habitacion.getId_estado_hab().getId_estado_hab()!=1) {
+		if(habitacion.getEstadoHabitacion().getId()!=1) {
 			return new ResponseEntity<>(new Response("Esa habitacion no esta disponible"),HttpStatus.CONFLICT);
 		}
 		internacionService.save(internacion);
 		
 		EstadoHabitacion estadoH=new EstadoHabitacion();
-		estadoH.setId_estado_hab(2);
-		habitacion.setId_estado_hab(estadoH);
+		estadoH.setId(2);
+		habitacion.setEstadoHabitacion(estadoH);
 		habitacionService.update(habitacion);
 		
 		return new ResponseEntity<>(new Response("Internacion registrada"),HttpStatus.CREATED);

@@ -1,6 +1,7 @@
 package com.cess.clinica.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,4 +20,37 @@ public class PacienteService implements PacienteInterface{
 		return pacienteRepository.findAll();
 	}
 
+	@Override
+	public void save(Paciente p) {
+		pacienteRepository.save(p);
+		
+	}
+	
+	@Override
+	public Paciente findByNumDocumento(String numDocumento) {
+		Paciente paciente=pacienteRepository.findByNumDocumento(numDocumento);
+		if(paciente!=null) {
+			return paciente;
+		}
+		return null;
+	}
+
+	@Override
+	public void delete(int id) {
+		pacienteRepository.deleteById(id);
+	}
+
+	@Override
+	public Paciente findById(int id) {
+		Optional<Paciente> paciente=pacienteRepository.findById(id);
+		if(paciente.isPresent()) {
+			return paciente.get();
+		}
+		return null;
+	}
+
+	@Override
+	public void update(Paciente p) {
+		pacienteRepository.save(p);
+	}
 }

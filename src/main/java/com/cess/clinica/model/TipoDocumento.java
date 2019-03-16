@@ -14,21 +14,20 @@ import javax.persistence.Table;
 public class TipoDocumento implements Serializable{
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private int id_tipo_doc;
+	private int id;
 	
-	@Column(name="descripcion_tipo")
-	private String descripcion_tipo;
+	private String descripcion;
 	
-	public int getId_tipo_doc() {
-		return id_tipo_doc;
+	public int getId() {
+		return id;
 	}
-	public void setId_tipo_doc(int id_tipo_doc) {
-		this.id_tipo_doc = id_tipo_doc;
+	public void setId(int id) {
+		this.id = id;
 	}
-	public String getDescripciontipo() {
-		return descripcion_tipo;
+	public String getDescripcion() {
+		return descripcion;
 	}
-	public void setDescripciontipo(String descripcion_tipo) {
-		this.descripcion_tipo = descripcion_tipo;
+	public void setDescripcion(String descripcion) {
+		this.descripcion = descripcion;
 	}
 }

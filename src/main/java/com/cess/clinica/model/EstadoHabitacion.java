@@ -13,22 +13,20 @@ import javax.persistence.Table;
 public class EstadoHabitacion implements Serializable {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private int id_estado_hab;
-	private String descripcion_est;
+	private int id;
 	
-	public int getId_estado_hab() {
-		return id_estado_hab;
-	}
-	public void setId_estado_hab(int id_estado_hab) {
-		this.id_estado_hab = id_estado_hab;
-	}
-	public String getDescripcion_est() {
-		return descripcion_est;
-	}
-	public void setDescripcion_est(String descripcion_est) {
-		this.descripcion_est = descripcion_est;
-	}
+	private String descripcion;
 	
-	
-	
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
+	public String getDescripcion() {
+		return descripcion;
+	}
+	public void setDescripcion(String descripcion) {
+		this.descripcion = descripcion;
+	}
 }

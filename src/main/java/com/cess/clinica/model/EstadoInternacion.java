@@ -16,18 +16,18 @@ import javax.persistence.Table;
 public class EstadoInternacion implements Serializable{
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private int id_estado_int;
+	private int id;
 	
 	private String descripcion;
 	
 	/*@OneToMany(mappedBy="id_estado_int",fetch=FetchType.EAGER)
 	private Set<Internacion> internaciones;*/
 	
-	public int getId_estado_int() {
-		return id_estado_int;
+	public int getId() {
+		return id;
 	}
-	public void setId_estado_int(int id_estado_int) {
-		this.id_estado_int = id_estado_int;
+	public void setId(int id) {
+		this.id = id;
 	}
 	public String getDescripcion() {
 		return descripcion;

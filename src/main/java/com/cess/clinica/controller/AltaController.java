@@ -39,26 +39,26 @@ public class AltaController {
 	
 	@PostMapping(value="/alta", produces="application/json")
 	public ResponseEntity<?> save(@RequestBody Alta alta){
-		Internacion internacion=internacionService.findById(alta.getId_internacion().getId_internacion());
+		Internacion internacion=internacionService.findById(alta.getInternacion().getId());
 		
-		if(internacion.getId_habitacion().getId_estado_hab().getId_estado_hab()!=2) {
+		if(internacion.getHabitacion().getEstadoHabitacion().getId()!=2) {
 			return new ResponseEntity<>(new Response("Esa habitacion esta disponible"),HttpStatus.CONFLICT);
 		}
 		altaService.save(alta);
 		
-		Habitacion habitacion=habitacionService.findById(internacion.getId_habitacion().getId_habitacion());
+		Habitacion habitacion=habitacionService.findById(internacion.getHabitacion().getEstadoHabitacion().getId());
 		EstadoHabitacion estadoH=new EstadoHabitacion();
-		estadoH.setId_estado_hab(1);
+		estadoH.setId(1);
 		
-		habitacion.setId_estado_hab(estadoH);
+		habitacion.setEstadoHabitacion(estadoH);
 		habitacionService.update(habitacion);
 		
 		EstadoInternacion estadoI=new EstadoInternacion();
-		estadoI.setId_estado_int(2);
-		internacion.setId_estado_int(estadoI);
+		estadoI.setId(2);
+		internacion.setEstadoInternacion(estadoI);
 		internacionService.save(internacion);
 		
-		return new ResponseEntity<>(new Response("Alta registrada"),HttpStatus.CREATED);
+		return new ResponseEntity<>(new Response("Se ha dado de alta al paciente: "+internacion.getPaciente().getNombre()),HttpStatus.CREATED);
 
 	}
 }

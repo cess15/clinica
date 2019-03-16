@@ -3,6 +3,7 @@ package com.cess.clinica.model;
 import java.io.Serializable;
 import java.util.Set;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -13,90 +14,130 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 
 @Entity
 @Table(name="medico")
 public class Medico implements Serializable{
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private int id_medico;
-	/*
-	@OneToMany(mappedBy="id_paciente",fetch=FetchType.EAGER)
-	private Set<Paciente> id_paciente;*/
+	private int id;
 	
 	@ManyToOne
-	@JoinColumn(name="id_tipo_doc")
-	private TipoDocumento id_tipo_doc;
-	private String num_matricula;
+	@JoinColumn(name="documento_id")
+	private TipoDocumento tipoDocumento;
+	
+	@Column(name="num_matricula")
+	private String numMatricula;
+	
 	private String apellido;
 	private String nombre;
-	private String num_documento;
-	private String especialidad;
-	private String num_telefono;
-	private String num_celular;
 	
-	public int getId_medico() {
-		return id_medico;
+	@Column(name="num_documento")
+	private String numDocumento;
+	
+	private String especialidad;
+	
+	@Column(name="num_telefono")
+	private String numTelefono;
+	
+	@Column(name="num_celular")
+	private String numCelular;
+	
+	@OneToMany(mappedBy="medico",fetch=FetchType.EAGER)
+	@JsonIgnoreProperties("medico")
+	private Set<Paciente> pacientes;
+	
+	@OneToMany(mappedBy="medico",fetch=FetchType.EAGER)
+	@JsonIgnoreProperties("medico")
+	private Set<Internacion> internaciones;
+
+	public int getId() {
+		return id;
 	}
-	public void setId_medico(int id_medico) {
-		this.id_medico = id_medico;
+
+	public void setId(int id) {
+		this.id = id;
 	}
-	/*
-	public Set<Paciente> getId_paciente() {
-		return id_paciente;
+
+	public TipoDocumento getTipoDocumento() {
+		return tipoDocumento;
 	}
-	public void setId_paciente(Set<Paciente> id_paciente) {
-		this.id_paciente = id_paciente;
+
+	public void setTipoDocumento(TipoDocumento tipoDocumento) {
+		this.tipoDocumento = tipoDocumento;
 	}
-	*/
-	public TipoDocumento getId_tipo_doc() {
-		return id_tipo_doc;
+
+	public String getNumMatricula() {
+		return numMatricula;
 	}
-	public void setId_tipo_doc(TipoDocumento id_tipo_doc) {
-		this.id_tipo_doc = id_tipo_doc;
+
+	public void setNumMatricula(String numMatricula) {
+		this.numMatricula = numMatricula;
 	}
-	public String getNum_matricula() {
-		return num_matricula;
-	}
-	public void setNum_matricula(String num_matricula) {
-		this.num_matricula = num_matricula;
-	}
+
 	public String getApellido() {
 		return apellido;
 	}
+
 	public void setApellido(String apellido) {
 		this.apellido = apellido;
 	}
+
 	public String getNombre() {
 		return nombre;
 	}
+
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
-	public String getNum_documento() {
-		return num_documento;
+
+	public String getNumDocumento() {
+		return numDocumento;
 	}
-	public void setNum_documento(String num_documento) {
-		this.num_documento = num_documento;
+
+	public void setNumDocumento(String numDocumento) {
+		this.numDocumento = numDocumento;
 	}
+
 	public String getEspecialidad() {
 		return especialidad;
 	}
+
 	public void setEspecialidad(String especialidad) {
 		this.especialidad = especialidad;
 	}
-	public String getNum_telefono() {
-		return num_telefono;
+
+	public String getNumTelefono() {
+		return numTelefono;
 	}
-	public void setNum_telefono(String num_telefono) {
-		this.num_telefono = num_telefono;
+
+	public void setNumTelefono(String numTelefono) {
+		this.numTelefono = numTelefono;
 	}
-	public String getNum_celular() {
-		return num_celular;
+
+	public String getNumCelular() {
+		return numCelular;
 	}
-	public void setNum_celular(String num_celular) {
-		this.num_celular = num_celular;
+
+	public void setNumCelular(String numCelular) {
+		this.numCelular = numCelular;
 	}
-	
+
+	public Set<Paciente> getPacientes() {
+		return pacientes;
+	}
+
+	public void setPacientes(Set<Paciente> pacientes) {
+		this.pacientes = pacientes;
+	}
+	public Set<Internacion> getInternaciones() {
+		return internaciones;
+	}
+
+	public void setInternaciones(Set<Internacion> internaciones) {
+		this.internaciones = internaciones;
+	}
 	
 }
