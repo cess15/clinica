@@ -24,20 +24,12 @@ public class Internacion implements Serializable{
 	
 	@ManyToOne
 	@JoinColumn(name="paciente_id")
-<<<<<<< HEAD
 	@JsonIgnoreProperties({"internaciones","medico"})
-=======
-	@JsonIgnoreProperties({"internaciones", "medico"})
->>>>>>> 45e9bb61494de603ed1febbef4d606030f2ce3e1
 	private Paciente paciente;
 	
 	@ManyToOne
 	@JoinColumn(name="medico_id")
-<<<<<<< HEAD
-	@JsonIgnoreProperties({"internaciones","paciente"})
-=======
 	@JsonIgnoreProperties({"internaciones", "pacientes"})
->>>>>>> 45e9bb61494de603ed1febbef4d606030f2ce3e1
 	private Medico medico;
 	
 	@ManyToOne
