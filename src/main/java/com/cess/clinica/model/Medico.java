@@ -28,6 +28,10 @@ public class Medico implements Serializable{
 	@JoinColumn(name="documento_id")
 	private TipoDocumento tipoDocumento;
 	
+	@OneToMany(mappedBy="medico",fetch=FetchType.EAGER)
+	@JsonIgnoreProperties({"medico","internaciones"})
+	private Set<Paciente> pacientes;
+	
 	@Column(name="num_matricula")
 	private String numMatricula;
 	
@@ -46,13 +50,9 @@ public class Medico implements Serializable{
 	private String numCelular;
 	
 	@OneToMany(mappedBy="medico",fetch=FetchType.EAGER)
-	@JsonIgnoreProperties("medico")
-	private Set<Paciente> pacientes;
-	
-	@OneToMany(mappedBy="medico",fetch=FetchType.EAGER)
-	@JsonIgnoreProperties("medico")
+	@JsonIgnoreProperties({"medico","paciente"})
 	private Set<Internacion> internaciones;
-
+	
 	public int getId() {
 		return id;
 	}
@@ -131,13 +131,6 @@ public class Medico implements Serializable{
 
 	public void setPacientes(Set<Paciente> pacientes) {
 		this.pacientes = pacientes;
-	}
-	public Set<Internacion> getInternaciones() {
-		return internaciones;
-	}
-
-	public void setInternaciones(Set<Internacion> internaciones) {
-		this.internaciones = internaciones;
 	}
 	
 }
