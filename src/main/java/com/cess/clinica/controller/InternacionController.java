@@ -35,7 +35,7 @@ public class InternacionController {
 	public ResponseEntity<?> save(@RequestBody Internacion internacion){
 		Habitacion habitacion=habitacionService.findById(internacion.getHabitacion().getId());
 		
-		if(habitacion.getEstadoHabitacion().getId()!=1) {
+		if(habitacion.getEstadoHabitacion().getId() != 1) {
 			return new ResponseEntity<>(new Response("Esa habitacion no esta disponible"),HttpStatus.CONFLICT);
 		}
 		internacionService.save(internacion);
@@ -45,6 +45,6 @@ public class InternacionController {
 		habitacion.setEstadoHabitacion(estadoH);
 		habitacionService.update(habitacion);
 		
-		return new ResponseEntity<>(new Response("Internacion registrada"),HttpStatus.CREATED);
+		return new ResponseEntity<>(new Response("Paciente internado !!"),HttpStatus.CREATED);
 	}
 }

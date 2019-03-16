@@ -30,7 +30,11 @@ public class Paciente implements Serializable{
 	
 	@ManyToOne
 	@JoinColumn(name="medico_id")
+<<<<<<< HEAD
 	@JsonIgnoreProperties({"paciente","medico"})
+=======
+	@JsonIgnoreProperties({"pacientes", "internaciones"})
+>>>>>>> 45e9bb61494de603ed1febbef4d606030f2ce3e1
 	private Medico medico;
 	
 	private String apellido;

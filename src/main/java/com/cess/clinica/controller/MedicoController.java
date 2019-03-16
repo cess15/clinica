@@ -16,7 +16,11 @@ public class MedicoController {
 	@Autowired
 	private MedicoInterface medicoService;
 	
+<<<<<<< HEAD
 	@GetMapping(value="/medico",produces="application/json")
+=======
+	@GetMapping(value= "/medico",produces="application/json")
+>>>>>>> 45e9bb61494de603ed1febbef4d606030f2ce3e1
 	public ResponseEntity<?> findAll(){
 		return new ResponseEntity<>(medicoService.findAll(),HttpStatus.OK);
 	}
