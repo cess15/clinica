@@ -32,10 +32,10 @@ public class PacienteController {
 	public ResponseEntity<?> save(@RequestBody Paciente p){
 		Paciente paciente = pacienteService.findByNumDocumento(p.getNumDocumento());
 		if(paciente!=null) {
-			return new ResponseEntity<>(new Response("Paciente "+p.getNombre()+" con el numero de documento "+p.getNumDocumento()+" ya se encuentra registrado"),HttpStatus.CONFLICT);
+			return new ResponseEntity<>(new Response("Paciente "+paciente.getNombre()+" "+paciente.getApellido()+" con el numero de documento "+p.getNumDocumento()+" ya se encuentra registrado"),HttpStatus.CONFLICT);
 		}
 		pacienteService.save(p);
-		return new ResponseEntity<>(new Response("Paciente "+p.getNombre()+" ingresado"),HttpStatus.OK);			
+		return new ResponseEntity<>(new Response("Paciente "+p.getNombre()+" "+p.getApellido()+" ingresado"),HttpStatus.OK);			
 	}
 	
 	@DeleteMapping(value="/paciente/{id}",produces="application/json")
@@ -45,7 +45,7 @@ public class PacienteController {
 			return new ResponseEntity<Response>(new Response("Error: no existe el paciente"),HttpStatus.NOT_FOUND);
 		}
 		pacienteService.delete(id);
-		return new ResponseEntity<Response>(new Response("Paciente "+paciente.getNombre()+" eliminado"),HttpStatus.OK);
+		return new ResponseEntity<Response>(new Response("Paciente "+paciente.getNombre()+" "+paciente.getApellido()+" eliminado"),HttpStatus.OK);
 	}
 	
 	@PutMapping(value="/paciente/{id}",produces="application/json")

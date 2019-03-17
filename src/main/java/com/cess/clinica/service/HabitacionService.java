@@ -1,10 +1,12 @@
 package com.cess.clinica.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.cess.clinica.model.EstadoHabitacion;
 import com.cess.clinica.model.Habitacion;
 import com.cess.clinica.repository.HabitacionRepository;
 
@@ -28,4 +30,23 @@ public class HabitacionService implements HabitacionInterface {
 		habitacionRepository.save(h);
 	}
 
+	@Override
+	public List<Habitacion> findByEstadoHabitacion(EstadoHabitacion estadoHabitacion) {
+		List<Habitacion> habitacion = habitacionRepository.findByEstadoHabitacion(estadoHabitacion);
+		if(habitacion!=null) {
+			return habitacion;
+		}
+		return null;
+	}
+
+	@Override
+	public void save(Habitacion h) {
+		habitacionRepository.save(h);
+	}
+
+	@Override
+	public void delete(int id) {
+		habitacionRepository.deleteById(id);
+		
+	}
 }

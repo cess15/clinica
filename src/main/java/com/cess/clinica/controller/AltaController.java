@@ -41,7 +41,7 @@ public class AltaController {
 	public ResponseEntity<?> save(@RequestBody Alta alta){
 		Internacion internacion=internacionService.findById(alta.getInternacion().getId());
 		
-		if(internacion.getHabitacion().getEstadoHabitacion().getId()!=2) {
+		if(internacion.getHabitacion().getEstadoHabitacion().getId()==1) {
 			return new ResponseEntity<>(new Response("Esa habitacion esta disponible"),HttpStatus.CONFLICT);
 		}
 		altaService.save(alta);
@@ -58,7 +58,7 @@ public class AltaController {
 		internacion.setEstadoInternacion(estadoI);
 		internacionService.save(internacion);
 		
-		return new ResponseEntity<>(new Response("Se ha dado de alta al paciente: "+internacion.getPaciente().getNombre()),HttpStatus.CREATED);
+		return new ResponseEntity<>(new Response("Se ha dado de alta al paciente: "+internacion.getPaciente().getNombre()+" "+internacion.getPaciente().getApellido()),HttpStatus.CREATED);
 
 	}
 }

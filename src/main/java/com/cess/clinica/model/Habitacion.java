@@ -10,6 +10,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Entity
 @Table(name="habitacion")
 public class Habitacion implements Serializable{
@@ -23,6 +25,7 @@ public class Habitacion implements Serializable{
 	
 	@ManyToOne
 	@JoinColumn(name="estado_id")
+	@JsonIgnoreProperties("habitaciones")
 	private EstadoHabitacion estadoHabitacion;
 	
 	@ManyToOne
