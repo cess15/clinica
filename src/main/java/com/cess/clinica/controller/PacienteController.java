@@ -3,6 +3,7 @@ package com.cess.clinica.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cess.clinica.model.Paciente;
@@ -17,6 +19,7 @@ import com.cess.clinica.service.PacienteInterface;
 import com.cess.clinica.util.Response;
 
 @RestController
+@CrossOrigin(origins="*",methods= {RequestMethod.GET, RequestMethod.POST, RequestMethod.DELETE, RequestMethod.PUT})
 @RequestMapping(value="/api")
 public class PacienteController {
 	
@@ -32,7 +35,7 @@ public class PacienteController {
 	public ResponseEntity<?> save(@RequestBody Paciente p){
 		Paciente paciente = pacienteService.findByNumDocumento(p.getNumDocumento());
 		if(paciente!=null) {
-			return new ResponseEntity<>(new Response("Paciente "+paciente.getNombre()+" "+paciente.getApellido()+" con el numero de documento "+p.getNumDocumento()+" ya se encuentra registrado"),HttpStatus.CONFLICT);
+			return new ResponseEntity<>(new Response("Paciente "+paciente.getNombre()+" "+paciente.getApellido()+" con el numero de documento "+p.getNumDocumento()+" ya existe"),HttpStatus.CONFLICT);
 		}
 		pacienteService.save(p);
 		return new ResponseEntity<>(new Response("Paciente "+p.getNombre()+" "+p.getApellido()+" ingresado"),HttpStatus.OK);			
