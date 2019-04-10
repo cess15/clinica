@@ -31,6 +31,15 @@ public class MedicoController {
 		return new ResponseEntity<>(medicoService.findAll(),HttpStatus.OK);
 	}
 	
+	@GetMapping(value="/medico/{id}",produces="application/json")
+	public ResponseEntity<?> findById(@PathVariable("id") int id){
+		Medico medico = medicoService.findById(id);
+		if(medico==null) {
+			return new ResponseEntity<Response>(new Response("Error: no existe el medico"),HttpStatus.NOT_FOUND);
+		}
+		return new ResponseEntity<>(medico,HttpStatus.OK);
+	}
+	
 	@PostMapping(value="/medico",produces="application/json")
 	public ResponseEntity<?> save(@RequestBody Medico m){
 		Medico medico = medicoService.findByNumDocumento(m.getNumDocumento());

@@ -30,21 +30,29 @@ public class HabitacionController {
 	private HabitacionInterface habitacionService;
 	
 	
-	@GetMapping(value="/habitacion/{id}",produces="application/json")
+	@GetMapping(value="/habitacion/estado/{id}",produces="application/json")
 	public ResponseEntity<?> findByEstadoHabitacion(@PathVariable("id") int id){
+		EstadoHabitacion estado = new EstadoHabitacion();
 		if(id==1) {
-			EstadoHabitacion estado = new EstadoHabitacion();
 			estado.setId(id);
 			List<Habitacion> habitacion = habitacionService.findByEstadoHabitacion(estado);
 			return new ResponseEntity<>(habitacion,HttpStatus.OK);
 		}
 		else if(id==2) {
-			EstadoHabitacion estado = new EstadoHabitacion();
 			estado.setId(id);
 			List<Habitacion> habitacion = habitacionService.findByEstadoHabitacion(estado);
 			return new ResponseEntity<>(habitacion,HttpStatus.OK);
 		}
 		return new ResponseEntity<>(new Response("Error"),HttpStatus.NOT_FOUND);
+	}
+	
+	@GetMapping(value="/habitacion/{id}",produces="application/json")
+	public ResponseEntity<?> findById(@PathVariable("id") int id){
+		Habitacion habitacion = habitacionService.findById(id);
+		if(habitacion==null) {
+			return new ResponseEntity<Response>(new Response("No se encontro la habitación"),HttpStatus.NOT_FOUND);
+		}
+		return new ResponseEntity<>(habitacion,HttpStatus.OK);
 	}
 	
 	@PostMapping(value="/habitacion",produces="application/json")
