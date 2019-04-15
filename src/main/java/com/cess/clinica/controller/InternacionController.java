@@ -39,7 +39,7 @@ public class InternacionController {
 		Habitacion habitacion=habitacionService.findById(internacion.getHabitacion().getId());
 		
 		if(habitacion.getEstadoHabitacion().getId() != 1) {
-			return new ResponseEntity<>(new Response("Esa habitacion no esta disponible"),HttpStatus.CONFLICT);
+			return new ResponseEntity<>(new Response("La habitación no se encuentra disponible"),HttpStatus.CONFLICT);
 		}
 		internacionService.save(internacion);
 		

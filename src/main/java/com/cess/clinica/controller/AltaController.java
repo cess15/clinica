@@ -45,7 +45,7 @@ public class AltaController {
 		Internacion internacion=internacionService.findById(alta.getInternacion().getId());
 		
 		if(internacion.getHabitacion().getEstadoHabitacion().getId()==1) {
-			return new ResponseEntity<>(new Response("Esa habitacion esta disponible"),HttpStatus.CONFLICT);
+			return new ResponseEntity<>(new Response("No se pudo dar de alta"),HttpStatus.CONFLICT);
 		}
 		altaService.save(alta);
 		

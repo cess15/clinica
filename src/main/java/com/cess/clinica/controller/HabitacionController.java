@@ -29,6 +29,10 @@ public class HabitacionController {
 	@Autowired
 	private HabitacionInterface habitacionService;
 	
+	@GetMapping(value="/habitacion",produces="application/json")
+	public ResponseEntity<?> findAll(){
+		return new ResponseEntity<>(habitacionService.findAll(),HttpStatus.OK);
+	}
 	
 	@GetMapping(value="/habitacion/estado/{id}",produces="application/json")
 	public ResponseEntity<?> findByEstadoHabitacion(@PathVariable("id") int id){
@@ -50,7 +54,7 @@ public class HabitacionController {
 	public ResponseEntity<?> findById(@PathVariable("id") int id){
 		Habitacion habitacion = habitacionService.findById(id);
 		if(habitacion==null) {
-			return new ResponseEntity<Response>(new Response("No se encontro la habitación"),HttpStatus.NOT_FOUND);
+			return new ResponseEntity<Response>(new Response("Error: habitación no existe"),HttpStatus.NOT_FOUND);
 		}
 		return new ResponseEntity<>(habitacion,HttpStatus.OK);
 	}
@@ -65,20 +69,20 @@ public class HabitacionController {
 	public ResponseEntity<?> update(@PathVariable("id") int id, @RequestBody Habitacion h){
 		Habitacion habitacion = habitacionService.findById(id);
 		if(habitacion==null) {
-			return new ResponseEntity<>(new Response("Error: habitacion no existe"),HttpStatus.NOT_FOUND);
+			return new ResponseEntity<>(new Response("Error: habitación no existe"),HttpStatus.NOT_FOUND);
 		}
 		h.setId(id);
 		habitacionService.update(h);
-		return new ResponseEntity<>(new Response("Se ha modificado los datos de la habitacion"),HttpStatus.OK);
+		return new ResponseEntity<>(new Response("Se han modificado los datos de la habitación"),HttpStatus.OK);
 	}
 	
 	@DeleteMapping(value="/habitacion/{id}",produces="application/json")
 	public ResponseEntity<?> delete(@PathVariable("id") int id){
 		Habitacion habitacion = habitacionService.findById(id);
 		if(habitacion==null) {
-			return new ResponseEntity<Response>(new Response("Error: habitacion no existe"),HttpStatus.NOT_FOUND);
+			return new ResponseEntity<Response>(new Response("Error: habitación no existe"),HttpStatus.NOT_FOUND);
 		}
 		habitacionService.delete(id);
-		return new ResponseEntity<Response>(new Response("Habitacion eliminada"),HttpStatus.OK);
+		return new ResponseEntity<Response>(new Response("Habitación eliminada"),HttpStatus.OK);
 	}
 }

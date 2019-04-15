@@ -6,6 +6,7 @@ import com.cess.clinica.model.EstadoHabitacion;
 import com.cess.clinica.model.Habitacion;
 
 public interface HabitacionInterface{
+	List<Habitacion> findAll();
 	Habitacion findById(int id);
 	void save(Habitacion h);
 	void update(Habitacion h);

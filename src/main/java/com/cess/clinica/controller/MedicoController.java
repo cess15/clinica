@@ -68,6 +68,6 @@ public class MedicoController {
 			return new ResponseEntity<Response>(new Response("Error: no existe el medico"),HttpStatus.NOT_FOUND);
 		}
 		medicoService.delete(id);
-		return new ResponseEntity<Response>(new Response("Medicoe "+medico.getNombre()+" "+medico.getApellido()+" eliminado"),HttpStatus.OK);
+		return new ResponseEntity<Response>(new Response("Medico "+medico.getNombre()+" "+medico.getApellido()+" eliminado"),HttpStatus.OK);
 	}
 }

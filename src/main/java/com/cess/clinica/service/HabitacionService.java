@@ -49,4 +49,13 @@ public class HabitacionService implements HabitacionInterface {
 		habitacionRepository.deleteById(id);
 		
 	}
+
+	@Override
+	public List<Habitacion> findAll() {
+		List<Habitacion> habitacion = habitacionRepository.findAll();
+		if(habitacion!=null) {
+			return habitacion;
+		}
+		return null;
+	}
 }
