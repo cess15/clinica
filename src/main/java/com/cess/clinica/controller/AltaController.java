@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.cess.clinica.model.Alta;
 import com.cess.clinica.model.EstadoHabitacion;
 import com.cess.clinica.model.EstadoInternacion;
-import com.cess.clinica.model.Habitacion;
 import com.cess.clinica.model.Internacion;
 import com.cess.clinica.service.AltaInterface;
 import com.cess.clinica.service.HabitacionInterface;
@@ -45,16 +44,15 @@ public class AltaController {
 		Internacion internacion=internacionService.findById(alta.getInternacion().getId());
 		
 		if(internacion.getHabitacion().getEstadoHabitacion().getId()==1) {
-			return new ResponseEntity<>(new Response("No se pudo dar de alta"),HttpStatus.CONFLICT);
+			return new ResponseEntity<>(new Response("No se pudo dar de alta porque no se encontro al paciente internado"),HttpStatus.CONFLICT);
 		}
 		altaService.save(alta);
 		
-		Habitacion habitacion=habitacionService.findById(internacion.getHabitacion().getEstadoHabitacion().getId());
+		
 		EstadoHabitacion estadoH=new EstadoHabitacion();
 		estadoH.setId(1);
-		
-		habitacion.setEstadoHabitacion(estadoH);
-		habitacionService.update(habitacion);
+		internacion.getHabitacion().setEstadoHabitacion(estadoH);
+		habitacionService.update(internacion.getHabitacion());
 		
 		EstadoInternacion estadoI=new EstadoInternacion();
 		estadoI.setId(2);
