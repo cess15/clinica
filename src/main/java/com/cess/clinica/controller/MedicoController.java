@@ -57,6 +57,14 @@ public class MedicoController {
 			return new ResponseEntity<Response>(new Response("Error: no existe el medico"),HttpStatus.NOT_FOUND);
 		}
 		m.setId(id);
+		if(medico.getNumDocumento().equals(m.getNumDocumento())) {
+			medicoService.save(m);
+			return new ResponseEntity<Response>(new Response("Se ha modificado los datos del medico"),HttpStatus.OK);
+		}
+		Medico medicos = medicoService.findByNumDocumento(m.getNumDocumento());
+		if(medicos!=null) {
+			return new ResponseEntity<>(new Response("Medico "+medicos.getNombre()+" "+medicos.getApellido()+" con numero documento "+m.getNumDocumento()+" ya se encuentra registrado"),HttpStatus.CONFLICT);
+		}
 		medicoService.save(m);
 		return new ResponseEntity<Response>(new Response("Se ha modificado los datos del medico"),HttpStatus.OK);
 	}

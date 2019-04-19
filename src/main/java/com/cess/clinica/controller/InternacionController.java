@@ -47,15 +47,28 @@ public class InternacionController {
 	@PostMapping(value="/internacion", produces="application/json")
 	public ResponseEntity<?> save(@RequestBody Internacion internacion){
 		Habitacion habitacion=habitacionService.findById(internacion.getHabitacion().getId());
+		Medico medico = medicoService.findById(internacion.getMedico().getId());
+		Paciente paciente = pacienteService.findById(internacion.getPaciente().getId());
+		
+		if(paciente==null) {
+			return new ResponseEntity<>(new Response("No se encontro al paciente"),HttpStatus.NOT_FOUND);
+		}else if(medico==null) {
+			return new ResponseEntity<>(new Response("No se encontro al médico"),HttpStatus.NOT_FOUND);
+		}else if(habitacion==null) {
+			return new ResponseEntity<>(new Response("No se encontro la habitación"),HttpStatus.NOT_FOUND);
+		}
+		
+		if(paciente.isEstaInternado()==true) {
+			return new ResponseEntity<>(new Response("El paciente ya tiene una internación en progreso"),HttpStatus.CONFLICT);
+		}
 		
 		if(habitacion.getEstadoHabitacion().getId() != 1) {
 			return new ResponseEntity<>(new Response("La habitación no se encuentra disponible"),HttpStatus.CONFLICT);
 		}
 		internacionService.save(internacion);
 		
-		Medico medico = medicoService.findById(internacion.getMedico().getId());
-		Paciente paciente = pacienteService.findById(internacion.getPaciente().getId());
 		paciente.setMedico(medico);
+		paciente.setEstaInternado(true);
 		pacienteService.update(paciente);
 		
 		EstadoHabitacion estadoH=new EstadoHabitacion();

@@ -15,9 +15,11 @@ import com.cess.clinica.model.Alta;
 import com.cess.clinica.model.EstadoHabitacion;
 import com.cess.clinica.model.EstadoInternacion;
 import com.cess.clinica.model.Internacion;
+import com.cess.clinica.model.Paciente;
 import com.cess.clinica.service.AltaInterface;
 import com.cess.clinica.service.HabitacionInterface;
 import com.cess.clinica.service.InternacionInterface;
+import com.cess.clinica.service.PacienteInterface;
 import com.cess.clinica.util.Response;
 
 @RestController
@@ -34,6 +36,9 @@ public class AltaController {
 	@Autowired
 	private InternacionInterface internacionService;
 	
+	@Autowired
+	private PacienteInterface pacienteService;
+	
 	@GetMapping(value="/alta", produces="application/json")
 	public ResponseEntity<?> findAll(){
 		return new ResponseEntity<>(altaService.findAll(),HttpStatus.OK);
@@ -42,12 +47,25 @@ public class AltaController {
 	@PostMapping(value="/alta", produces="application/json")
 	public ResponseEntity<?> save(@RequestBody Alta alta){
 		Internacion internacion=internacionService.findById(alta.getInternacion().getId());
+		if(internacion==null) {
+			return new ResponseEntity<>(new Response("Error datos no encontrados"),HttpStatus.NOT_FOUND);
+		}
+		Paciente paciente = pacienteService.findById(internacion.getPaciente().getId());
+		
+		
+		if(paciente.isEstaInternado()==false) {
+			return new ResponseEntity<>(new Response("El paciente ya ha sido dado de alta"),HttpStatus.CONFLICT);
+		}
 		
 		if(internacion.getHabitacion().getEstadoHabitacion().getId()==1) {
 			return new ResponseEntity<>(new Response("No se pudo dar de alta porque no se encontro al paciente internado"),HttpStatus.CONFLICT);
 		}
+		
+		
 		altaService.save(alta);
 		
+		paciente.setEstaInternado(false);
+		pacienteService.update(paciente);
 		
 		EstadoHabitacion estadoH=new EstadoHabitacion();
 		estadoH.setId(1);

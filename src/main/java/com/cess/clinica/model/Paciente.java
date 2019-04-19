@@ -44,8 +44,11 @@ public class Paciente implements Serializable{
 	@Column(name="obra_social")
 	private String obraSocial;
 	
+	@Column(name="esta_internado")
+	private boolean estaInternado;
+	
 	@OneToMany(mappedBy="paciente",fetch=FetchType.EAGER)
-	@JsonIgnoreProperties({"paciente","medico"})
+	@JsonIgnoreProperties(value={"paciente","medico"},allowSetters=true)
 	private Set<Internacion> internaciones;
 
 	public int getId() {
@@ -110,6 +113,15 @@ public class Paciente implements Serializable{
 
 	public void setObraSocial(String obraSocial) {
 		this.obraSocial = obraSocial;
+	}
+	
+
+	public boolean isEstaInternado() {
+		return estaInternado;
+	}
+
+	public void setEstaInternado(boolean estaInternado) {
+		this.estaInternado = estaInternado;
 	}
 
 	public Set<Internacion> getInternaciones() {

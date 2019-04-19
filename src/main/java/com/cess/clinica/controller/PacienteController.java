@@ -37,6 +37,7 @@ public class PacienteController {
 		if(paciente!=null) {
 			return new ResponseEntity<>(new Response("Paciente "+paciente.getNombre()+" "+paciente.getApellido()+" con el numero de documento "+p.getNumDocumento()+" ya existe"),HttpStatus.CONFLICT);
 		}
+		p.setEstaInternado(false);
 		pacienteService.save(p);
 		return new ResponseEntity<>(new Response("Paciente "+p.getNombre()+" "+p.getApellido()+" ingresado"),HttpStatus.OK);			
 	}
@@ -58,8 +59,18 @@ public class PacienteController {
 			return new ResponseEntity<Response>(new Response("Error: no existe el paciente"),HttpStatus.NOT_FOUND);
 		}
 		p.setId(id);
+		if(paciente.getNumDocumento().equals(p.getNumDocumento())) {
+			p.setEstaInternado(paciente.isEstaInternado());
+			pacienteService.save(p);
+			return new ResponseEntity<Response>(new Response("Se ha modificado los datos del paciente"),HttpStatus.OK);			
+		}
+		Paciente pacientes = pacienteService.findByNumDocumento(p.getNumDocumento());
+		if(pacientes!=null) {
+			return new ResponseEntity<Response>(new Response("Paciente "+pacientes.getNombre()+" "+pacientes.getApellido()+" con el numero de documento "+p.getNumDocumento()+" ya existe"),HttpStatus.CONFLICT);
+		}
+		p.setEstaInternado(paciente.isEstaInternado());
 		pacienteService.save(p);
-		return new ResponseEntity<Response>(new Response("Se ha modificado los datos del paciente"),HttpStatus.OK);
+		return new ResponseEntity<Response>(new Response("Se ha modificado los datos del paciente"),HttpStatus.OK);			
 	}
 	
 	@GetMapping(value="/paciente/{id}",produces="application/json")
