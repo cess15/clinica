@@ -61,6 +61,12 @@ public class HabitacionController {
 	
 	@PostMapping(value="/habitacion",produces="application/json")
 	public ResponseEntity<?> save(@RequestBody Habitacion h){
+		Habitacion habitacion = habitacionService.findByPisoAndNumero(h.getPiso(),h.getNumero());
+		
+		if(habitacion!=null) {
+			return new ResponseEntity<>(new Response("Habitacion ya existe"),HttpStatus.CONFLICT);
+		}
+		h.setHayPaciente(false);
 		habitacionService.save(h);
 		return new ResponseEntity<>(new Response("Habitacion ingresada"),HttpStatus.OK);
 	}
@@ -71,7 +77,19 @@ public class HabitacionController {
 		if(habitacion==null) {
 			return new ResponseEntity<>(new Response("Error: habitación no existe"),HttpStatus.NOT_FOUND);
 		}
+		
 		h.setId(id);
+		if(habitacion.getPiso().getId()==h.getPiso().getId() && habitacion.getNumero().equals(h.getNumero())) {
+			h.setHayPaciente(habitacion.isHayPaciente());
+			habitacionService.update(h);
+			return new ResponseEntity<>(new Response("Se han modificado los datos de la habitación"),HttpStatus.OK);
+		}
+		
+		Habitacion obtenerHabitacion = habitacionService.findByPisoAndNumero(h.getPiso(),h.getNumero());
+		if(obtenerHabitacion!=null) {
+			return new ResponseEntity<>(new Response("Habitacion ya existe"),HttpStatus.CONFLICT);
+		}
+		h.setHayPaciente(habitacion.isHayPaciente());
 		habitacionService.update(h);
 		return new ResponseEntity<>(new Response("Se han modificado los datos de la habitación"),HttpStatus.OK);
 	}
@@ -82,6 +100,11 @@ public class HabitacionController {
 		if(habitacion==null) {
 			return new ResponseEntity<Response>(new Response("Error: habitación no existe"),HttpStatus.NOT_FOUND);
 		}
+		
+		if(habitacion.isHayPaciente()==true) {
+			return new ResponseEntity<Response>(new Response("Hay un paciente internado en esta habitación"),HttpStatus.CONFLICT);
+		}
+		
 		habitacionService.delete(id);
 		return new ResponseEntity<Response>(new Response("Habitación eliminada"),HttpStatus.OK);
 	}

@@ -14,7 +14,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.cess.clinica.model.Medico;
 import com.cess.clinica.model.Paciente;
+import com.cess.clinica.service.MedicoInterface;
 import com.cess.clinica.service.PacienteInterface;
 import com.cess.clinica.util.Response;
 
@@ -26,6 +28,9 @@ public class PacienteController {
 	@Autowired
 	private PacienteInterface pacienteService;
 	
+	@Autowired
+	private MedicoInterface medicoService;
+	
 	@GetMapping(value="/paciente",produces="application/json")
 	public ResponseEntity<?> findAll(){
 		return new ResponseEntity<>(pacienteService.findAll(),HttpStatus.OK);
@@ -34,9 +39,14 @@ public class PacienteController {
 	@PostMapping(value="/paciente",produces="application/json")
 	public ResponseEntity<?> save(@RequestBody Paciente p){
 		Paciente paciente = pacienteService.findByNumDocumento(p.getNumDocumento());
+		Medico medico = medicoService.findByNumDocumento(p.getNumDocumento());
+		
 		if(paciente!=null) {
 			return new ResponseEntity<>(new Response("Paciente "+paciente.getNombre()+" "+paciente.getApellido()+" con el numero de documento "+p.getNumDocumento()+" ya existe"),HttpStatus.CONFLICT);
+		}else if(medico!=null) {
+			return new ResponseEntity<>(new Response("Medico "+medico.getNombre()+" "+medico.getApellido()+" con el numero de documento "+p.getNumDocumento()+" ya existe"),HttpStatus.CONFLICT);
 		}
+		
 		p.setEstaInternado(false);
 		pacienteService.save(p);
 		return new ResponseEntity<>(new Response("Paciente "+p.getNombre()+" "+p.getApellido()+" ingresado"),HttpStatus.OK);			
@@ -65,8 +75,11 @@ public class PacienteController {
 			return new ResponseEntity<Response>(new Response("Se ha modificado los datos del paciente"),HttpStatus.OK);			
 		}
 		Paciente pacientes = pacienteService.findByNumDocumento(p.getNumDocumento());
+		Medico medico = medicoService.findByNumDocumento(p.getNumDocumento());
 		if(pacientes!=null) {
 			return new ResponseEntity<Response>(new Response("Paciente "+pacientes.getNombre()+" "+pacientes.getApellido()+" con el numero de documento "+p.getNumDocumento()+" ya existe"),HttpStatus.CONFLICT);
+		}else if(medico!=null) {
+			return new ResponseEntity<>(new Response("Medico "+medico.getNombre()+" "+medico.getApellido()+" con el numero de documento "+p.getNumDocumento()+" ya existe"),HttpStatus.CONFLICT);
 		}
 		p.setEstaInternado(paciente.isEstaInternado());
 		pacienteService.save(p);

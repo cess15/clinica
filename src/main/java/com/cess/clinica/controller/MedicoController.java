@@ -15,7 +15,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cess.clinica.model.Medico;
+import com.cess.clinica.model.Paciente;
 import com.cess.clinica.service.MedicoInterface;
+import com.cess.clinica.service.PacienteInterface;
 import com.cess.clinica.util.Response;
 
 @RestController
@@ -25,6 +27,9 @@ public class MedicoController {
 	
 	@Autowired
 	private MedicoInterface medicoService;
+	
+	@Autowired
+	private PacienteInterface pacienteService;
 	
 	@GetMapping(value="/medico",produces="application/json")
 	public ResponseEntity<?> findAll(){
@@ -43,8 +48,11 @@ public class MedicoController {
 	@PostMapping(value="/medico",produces="application/json")
 	public ResponseEntity<?> save(@RequestBody Medico m){
 		Medico medico = medicoService.findByNumDocumento(m.getNumDocumento());
+		Paciente paciente = pacienteService.findByNumDocumento(m.getNumDocumento());
 		if(medico!=null) {
 			return new ResponseEntity<>(new Response("Medico "+medico.getNombre()+" "+medico.getApellido()+" con numero documento "+m.getNumDocumento()+" ya se encuentra registrado"),HttpStatus.CONFLICT);
+		}else if(paciente!=null) {
+			return new ResponseEntity<>(new Response("Paciente "+paciente.getNombre()+" "+paciente.getApellido()+" con el numero de documento "+m.getNumDocumento()+" ya existe"),HttpStatus.CONFLICT);
 		}
 		medicoService.save(m);
 		return new ResponseEntity<>(new Response("Medico "+m.getNombre()+" "+m.getApellido()+" ingresado"),HttpStatus.OK);
@@ -62,8 +70,11 @@ public class MedicoController {
 			return new ResponseEntity<Response>(new Response("Se ha modificado los datos del medico"),HttpStatus.OK);
 		}
 		Medico medicos = medicoService.findByNumDocumento(m.getNumDocumento());
+		Paciente paciente = pacienteService.findByNumDocumento(m.getNumDocumento());
 		if(medicos!=null) {
 			return new ResponseEntity<>(new Response("Medico "+medicos.getNombre()+" "+medicos.getApellido()+" con numero documento "+m.getNumDocumento()+" ya se encuentra registrado"),HttpStatus.CONFLICT);
+		}else if(paciente!=null) {
+			return new ResponseEntity<>(new Response("Paciente "+paciente.getNombre()+" "+paciente.getApellido()+" con el numero de documento "+m.getNumDocumento()+" ya existe"),HttpStatus.CONFLICT);
 		}
 		medicoService.save(m);
 		return new ResponseEntity<Response>(new Response("Se ha modificado los datos del medico"),HttpStatus.OK);

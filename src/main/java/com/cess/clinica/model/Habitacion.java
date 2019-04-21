@@ -2,6 +2,7 @@ package com.cess.clinica.model;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -37,6 +38,9 @@ public class Habitacion implements Serializable{
 	private Genero genero;
 	
 	private String numero;
+	
+	@Column(name="hay_paciente")
+	private boolean hayPaciente;
 	
 	
 	public int getId() {
@@ -74,5 +78,11 @@ public class Habitacion implements Serializable{
 	}
 	public void setNumero(String numero) {
 		this.numero = numero;
+	}
+	public boolean isHayPaciente() {
+		return hayPaciente;
+	}
+	public void setHayPaciente(boolean hayPaciente) {
+		this.hayPaciente = hayPaciente;
 	}
 }

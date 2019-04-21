@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cess.clinica.model.EstadoHabitacion;
+import com.cess.clinica.model.EstadoInternacion;
 import com.cess.clinica.model.Habitacion;
 import com.cess.clinica.model.Internacion;
 import com.cess.clinica.model.Medico;
@@ -62,9 +63,12 @@ public class InternacionController {
 			return new ResponseEntity<>(new Response("El paciente ya tiene una internación en progreso"),HttpStatus.CONFLICT);
 		}
 		
-		if(habitacion.getEstadoHabitacion().getId() != 1) {
-			return new ResponseEntity<>(new Response("La habitación no se encuentra disponible"),HttpStatus.CONFLICT);
+		if(habitacion.isHayPaciente()==true) {
+			return new ResponseEntity<>(new Response("Ya se encuentra un paciente en esa habitación o no esta disponible"),HttpStatus.CONFLICT);
 		}
+		EstadoInternacion estadoI = new EstadoInternacion();
+		estadoI.setId(1);
+		internacion.setEstadoInternacion(estadoI);
 		internacionService.save(internacion);
 		
 		paciente.setMedico(medico);
@@ -74,6 +78,7 @@ public class InternacionController {
 		EstadoHabitacion estadoH=new EstadoHabitacion();
 		estadoH.setId(2);
 		habitacion.setEstadoHabitacion(estadoH);
+		habitacion.setHayPaciente(true);
 		habitacionService.update(habitacion);
 		
 		return new ResponseEntity<>(new Response("Paciente internado !!"),HttpStatus.CREATED);

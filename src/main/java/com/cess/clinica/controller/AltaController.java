@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.cess.clinica.model.Alta;
 import com.cess.clinica.model.EstadoHabitacion;
 import com.cess.clinica.model.EstadoInternacion;
+import com.cess.clinica.model.Habitacion;
 import com.cess.clinica.model.Internacion;
 import com.cess.clinica.model.Paciente;
 import com.cess.clinica.service.AltaInterface;
@@ -50,15 +51,15 @@ public class AltaController {
 		if(internacion==null) {
 			return new ResponseEntity<>(new Response("Error datos no encontrados"),HttpStatus.NOT_FOUND);
 		}
+		Habitacion habitacion = habitacionService.findById(internacion.getHabitacion().getId());
 		Paciente paciente = pacienteService.findById(internacion.getPaciente().getId());
-		
 		
 		if(paciente.isEstaInternado()==false) {
 			return new ResponseEntity<>(new Response("El paciente ya ha sido dado de alta"),HttpStatus.CONFLICT);
 		}
 		
-		if(internacion.getHabitacion().getEstadoHabitacion().getId()==1) {
-			return new ResponseEntity<>(new Response("No se pudo dar de alta porque no se encontro al paciente internado"),HttpStatus.CONFLICT);
+		if(habitacion.isHayPaciente()==false) {
+			return new ResponseEntity<>(new Response("No se encontro ningun paciente en la habitación"),HttpStatus.NOT_FOUND);
 		}
 		
 		
@@ -69,8 +70,9 @@ public class AltaController {
 		
 		EstadoHabitacion estadoH=new EstadoHabitacion();
 		estadoH.setId(1);
-		internacion.getHabitacion().setEstadoHabitacion(estadoH);
-		habitacionService.update(internacion.getHabitacion());
+		habitacion.setEstadoHabitacion(estadoH);
+		habitacion.setHayPaciente(false);
+		habitacionService.update(habitacion);
 		
 		EstadoInternacion estadoI=new EstadoInternacion();
 		estadoI.setId(2);
