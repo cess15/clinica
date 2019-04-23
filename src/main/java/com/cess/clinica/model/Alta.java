@@ -11,6 +11,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity
 @Table(name="alta")
@@ -24,7 +26,9 @@ public class Alta implements Serializable{
 	private Internacion internacion;
 	
 	@Column(name="fecha_salida")
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date fechaSalida;
+	
 	private double abono;
 	
 	
