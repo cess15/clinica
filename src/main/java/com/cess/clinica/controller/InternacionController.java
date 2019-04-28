@@ -1,6 +1,8 @@
 package com.cess.clinica.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -40,9 +42,14 @@ public class InternacionController {
 	@Autowired
 	private PacienteInterface pacienteService;
 	
-	@GetMapping(value="/internacion", produces="application/json")
+	@GetMapping(value="/internaciones", produces="application/json")
 	public ResponseEntity<?> findAll(){
 		return new ResponseEntity<>(internacionService.findAll(),HttpStatus.OK);
+	}
+	
+	@GetMapping(value="/internacion", produces="application/json")
+	public ResponseEntity<?> findAll(@PageableDefault(size=10) Pageable pageable){
+		return new ResponseEntity<>(internacionService.findAll(pageable),HttpStatus.OK);
 	}
 	
 	@PostMapping(value="/internacion", produces="application/json")

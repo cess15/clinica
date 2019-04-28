@@ -3,6 +3,8 @@ package com.cess.clinica.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.cess.clinica.model.Alta;
@@ -23,6 +25,11 @@ public class AltaService implements AltaInterface{
 	public void save(Alta a) {
 		altaRepository.save(a);
 		
+	}
+
+	@Override
+	public Page<Alta> findAll(Pageable pageable) {
+		return altaRepository.findAll(pageable);
 	}
 	
 }

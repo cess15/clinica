@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.cess.clinica.model.EstadoHabitacion;
@@ -32,12 +34,8 @@ public class HabitacionService implements HabitacionInterface {
 	}
 
 	@Override
-	public List<Habitacion> findByEstadoHabitacion(EstadoHabitacion estadoHabitacion) {
-		List<Habitacion> habitacion = habitacionRepository.findByEstadoHabitacion(estadoHabitacion);
-		if(habitacion!=null) {
-			return habitacion;
-		}
-		return null;
+	public Page<Habitacion> findByEstadoHabitacion(EstadoHabitacion estadoHabitacion,Pageable pageable) {
+		return habitacionRepository.findByEstadoHabitacion(estadoHabitacion,pageable);
 	}
 
 	@Override
@@ -67,5 +65,15 @@ public class HabitacionService implements HabitacionInterface {
 			return habitacion;
 		}
 		return null;
+	}
+
+	@Override
+	public Page<Habitacion> findAll(Pageable pageable) {
+		return habitacionRepository.findAll(pageable);
+	}
+
+	@Override
+	public List<Habitacion> findByEstadoHabitacion(EstadoHabitacion estadoHabitacion) {
+		return habitacionRepository.findByEstadoHabitacion(estadoHabitacion);
 	}
 }

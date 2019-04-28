@@ -3,6 +3,9 @@ package com.cess.clinica.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -29,12 +32,17 @@ public class HabitacionController {
 	@Autowired
 	private HabitacionInterface habitacionService;
 	
-	@GetMapping(value="/habitacion",produces="application/json")
+	@GetMapping(value="/habitaciones",produces="application/json")
 	public ResponseEntity<?> findAll(){
 		return new ResponseEntity<>(habitacionService.findAll(),HttpStatus.OK);
 	}
 	
-	@GetMapping(value="/habitacion/estado/{id}",produces="application/json")
+	@GetMapping(value="/habitacion",produces="application/json")
+	public ResponseEntity<?> findAll(@PageableDefault(size=10) Pageable pageable){
+		return new ResponseEntity<>(habitacionService.findAll(pageable),HttpStatus.OK);
+	}
+	
+	@GetMapping(value="/habitaciones/estado/{id}",produces="application/json")
 	public ResponseEntity<?> findByEstadoHabitacion(@PathVariable("id") int id){
 		EstadoHabitacion estado = new EstadoHabitacion();
 		if(id==1) {
@@ -45,6 +53,22 @@ public class HabitacionController {
 		else if(id==2) {
 			estado.setId(id);
 			List<Habitacion> habitacion = habitacionService.findByEstadoHabitacion(estado);
+			return new ResponseEntity<>(habitacion,HttpStatus.OK);
+		}
+		return new ResponseEntity<>(new Response("Error"),HttpStatus.NOT_FOUND);
+	}
+	
+	@GetMapping(value="/habitacion/estado/{id}",produces="application/json")
+	public ResponseEntity<?> findByEstadoHabitacion(@PathVariable("id") int id, @PageableDefault(size=10) Pageable pageable){
+		EstadoHabitacion estado = new EstadoHabitacion();
+		if(id==1) {
+			estado.setId(id);
+			Page<Habitacion> habitacion = habitacionService.findByEstadoHabitacion(estado,pageable);
+			return new ResponseEntity<>(habitacion,HttpStatus.OK);
+		}
+		else if(id==2) {
+			estado.setId(id);
+			Page<Habitacion> habitacion = habitacionService.findByEstadoHabitacion(estado,pageable);
 			return new ResponseEntity<>(habitacion,HttpStatus.OK);
 		}
 		return new ResponseEntity<>(new Response("Error"),HttpStatus.NOT_FOUND);

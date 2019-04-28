@@ -18,7 +18,11 @@ public class PacienteService implements PacienteInterface{
 	
 	@Override
 	public Page<Paciente> findAll(Pageable pageable) {
-		return pacienteRepository.findAll(pageable);
+		Page<Paciente> paciente = pacienteRepository.findAll(pageable);
+		if(paciente!=null) {
+			return paciente;
+		}
+		return null;
 	}
 
 	@Override
